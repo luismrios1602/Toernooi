@@ -1,0 +1,121 @@
+﻿<!-- El ID del equipo -->
+@model List<InscripcionEquipos>
+
+@{
+    Context_BD _coBDToernooi = new Context_BD();
+    ViewBag.Title = "Inscribir jugadores";
+    ViewBag.cantEquipos = int.Parse(Session["cantEquipos"].ToString());
+    ViewBag.cantEquiposRegistrados = int.Parse(Session["cantEquiposIns"].ToString());
+    List<PosicionesJug> posiciones = _coBDToernooi.PosicionesJug.ToList();
+    //Session["idEquipo"] = Model.ElementAt(int.Parse(Session["numEquipo"].ToString())).Equipos_idEquipo;
+    //Session["NombreEquipo"] = Model.ElementAt(int.Parse(Session["numEquipo"].ToString())).Equipos.nomEquipo;
+    if (Model.Count != 0)
+    {
+        Session["idEquipo"] = Model.ElementAt(int.Parse(Session["numEquipo"].ToString())).Equipos_idEquipo;
+        Session["NombreEquipo"] = Model.ElementAt(int.Parse(Session["numEquipo"].ToString())).Equipos.nomEquipo;
+    }
+
+}
+
+@section scripts{
+    <script src="~/Areas/Gestion/Content/js/VistasParciales.js"></script>
+    <script src="~/Areas/Gestion/Content/js/validarRegisTorn.js"></script>
+    <script src="~/Areas/Gestion/Content/js/Funciones.js"></script>
+}
+
+<div class="container" style="text-align:left">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="~/imagenes/Logotipo Toernooi black.png" alt="" width="70" height="70">
+        <h2>Inscribir Jugadores</h2>
+        <p class="lead">A continuación se solicitan los datos de los jugadores de cada equipo inscritos al torneo.</p>
+    </div>
+
+    <h3 style="text-align:left">Equipo en inscripción: @ViewBag.cantEquiposRegistrados/@ViewBag.cantEquipos</h3>
+    <h4>Equipo: @Session["NombreEquipo"]</h4>
+
+    <div class="row mt-5">
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormJugadores" data-bs-whatever="@@mdo">Añadir Jugador</button>
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-12 mb-5" id="divTablaJugadores">
+                <label>Aquí debería ir la tabla</label>
+            </div>
+            <form action="@Url.Action("siguienteEquipo","Torneos",new { Area = "Gestion"})">
+                <!--Aquí hago la condición para cuando sea el último equipo me aparezca un botón de finalizar y no de siguiente. -->
+                @if (ViewBag.cantEquiposRegistrados == @ViewBag.cantEquipos)
+                {
+                    <a class="btn btn-primary" onclick="finalizarRegistroTorneo()" href="@Url.Action("Index","Torneos", new { Area = "Gestion"})">Finalizar</a>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary" onclick="">Siguiente equipo</button>
+                }
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<!--###################################################### MODAL FORMULARIO INSCRIBIR JUGADOR ##################################################-->
+
+<div class="modal fade" id="modalFormJugadores" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Inscribir jugador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" novalidate method="post" action="@Url.Action("insertJugadores","Torneos")">
+                    <div class="">
+                        <label for="documento" class="col-form-label">Documento:</label>
+                        <input type="text" class="form-control" name="documento" required />
+                    </div>
+                    <div class="">
+                        <label for="nomJugador" class="col-form-label">Nombre:</label>
+                        <input type="text" class="form-control" name="nomJugador" required />
+                    </div>
+                    <div class="">
+                        <label for="apeJugador" class="col-form-label">Apellidos:</label>
+                        <input type="text" class="form-control" name="apeJugador" required />
+                    </div>
+                    <div class="">
+                        <label for="fechaNac" class="col-form-label">Fecha de nacimiento:</label>
+                        <input type="date" class="form-control" name="fechaNacimiento" required />
+                    </div>
+                    <div class="">
+                        <label for="dorsal" class="col-form-label">Dorsal:</label>
+                        <input type="text" class="form-control" name="dorsal" required />
+                    </div>
+                    <div class="">
+                        <label for="nomEquipo" class="col-form-label">Equipo:</label>
+                        <input type="text" class="form-control" value="@Session["NombreEquipo"]" disabled />
+                        <input type="text" name="Equipos_idEquipo" style="display:none" value="@Session["IdEquipo"]" />
+                    </div>
+                    <div class="mb-1">
+                        <label for="cargo" class="col-form-label">Posición:</label>
+                        <select name="PosicionesJug_idPosicionJug" class="form-select" required>
+                            <option></option>
+                            @foreach (var posicion in posiciones)
+                            {
+                                <option value="@posicion.idPosicionJug">@posicion.nomPosicion</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary " type="submit">Añadir Jugador</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!--<button type="button" class="btn btn-primary">Guardar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<hr />
+
+<!-- Título -->
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-bold">TOERNOOI</h1>
+            <p class="lead text-muted">Gestiona tus torneos de fútbol con el mejor gestor de torneos del mundo.</p>
+            <p>
+                <a class="btn btn-primary" href="@Url.Action("Index","Registro",new {Area = "AccesoyRegistro" })">Registrarse</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="row">
+    <div class="col-lg-4">
+        <img class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false" src="~/imagenes/img-home-crea.jpg" />
+
+        <h2>Registra</h2>
+        <p>Tus torneos, equipos, jugadores, cuerpos tecnicos. Puedes escoger el tipo de torneo del que seas organizador.</p>
+
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+        <img class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false" src="~/imagenes/img-home-gestiona.jpg" />
+        <h2>Gestiona</h2>
+        <p>Tus torneos, resultados de los partidos, detalles de los partidos y de cada jugador.</p>
+
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+        <img class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false" src="~/imagenes/img-home-publica.jpg" />
+        <h2>Publica</h2>
+        <p>Las posiciones, resultados, goleadores, todos los datos que necesites de manera fácil y rápida.</p>
+
+    </div><!-- /.col-lg-4 -->
+</div><!-- /.row -->

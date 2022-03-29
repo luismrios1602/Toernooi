@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "twitter-bootstrap@5.0.0-beta3",
+      "destination": "Content/lib/bootstrap/"
+    },
+    {
+      "library": "popper.js@2.9.2",
+      "destination": "Content/lib/popper/"
+    },
+    {
+      "library": "jquery@3.6.0",
+      "destination": "Content/lib/jquery/"
+    },
+    {
+      "library": "limonte-sweetalert2@10.16.6",
+      "destination": "Content/lib/sweetalert2/"
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "Content/lib/toastr.js/"
+    }
+  ]
+}

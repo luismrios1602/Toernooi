@@ -1,0 +1,89 @@
+﻿@{
+    Context_BD _coBDToernooi = new Context_BD();
+    //Voy a hacer una lista de equipos para sacar el equipo dependiendo qué haya en el select de equipos
+    List<Equipos> listEquipos = _coBDToernooi.Equipos.ToList();
+    
+    Layout = null;
+}
+@model List<InscripcionEquipos>
+
+@section scripts{
+    <script src="~/Areas/Gestion/Content/js/VistasParciales.js"></script>
+}
+<div class="row">
+    <div>
+        <div class="col-12">
+            <select class="form-select col-1 mb-1" id="combo_Equipos" >
+                @foreach (var equipo in Model)
+                {
+                    <option value="@equipo.Equipos_idEquipo">@equipo.Equipos.nomEquipo</option>
+                }
+            </select>
+            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalFormEquipos" data-bs-whatever="@@mdo" id="">Actualizar Equipo</button>
+        </div>
+    </div>
+    <div class="col-12">
+        <table class="table table-striped table-responsive">
+            <tr>
+                <th>IdEquipo</th>
+                <th>Nombre del equipo</th>
+                <th>Grado o Carrera</th>
+                <th>Responsable</th>
+                <th>Torneo</th>
+            </tr>
+            @foreach (var equipo in Model)
+            {
+                <tr>
+                    <td>@equipo.Equipos_idEquipo</td>
+                    <td>@equipo.Equipos.nomEquipo</td>
+                    <td>@equipo.Equipos.gradoOcarrera</td>
+                    <td>@equipo.Equipos.nomResponsable</td>
+                    <td>@equipo.Torneos_idTorneo</td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+<!--###################################################### MODAL FORMULARIO ACTUALIZAR EQUIPO ##################################################-->
+
+<div class="modal fade" id="modalFormEquipos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @{ 
+        List<Equipos> equipoSelect = _coBDToernooi.Equipos.Where(x => x.idEquipo == 192).ToList();
+    }
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Equipo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" novalidate method="post" action="@Url.Action("updateEquipo","Actualizador")">
+                    <div class="mb-3">
+                        <label for="nomEquipo" class="col-form-label">Nombre del equipo:</label>
+                        <input type="text" class="form-control" name="nomEquipo" value="@equipoSelect[0].nomEquipo" required autocomplete="off" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="gradoOcarrera" class="col-form-label">Grado o carrera:</label>
+                        <input type="text" class="form-control" value="" name="gradoOcarrera" required autocomplete="off" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nomResponsable" class="col-form-label">Responsable del equipo:</label>
+                        <input type="text" class="form-control" name="nomResponsable" value="" required autocomplete="off" />
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary " type="submit">Añadir equipo</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!--<button type="button" class="btn btn-primary">Guardar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+

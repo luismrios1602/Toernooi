@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewBag.Title = "Inscribir Equipos";
+
+    //Creo dos variables locales para almacenar la cantidad de equipos registrados y la cantidad de equipos inscritos que se creas cuando registro un torneo
+    ViewBag.cantEquipos = int.Parse(Session["cantEquipos"].ToString());
+    //Los equipos inscritos modifican su valor desde metodo de InscribirEquipo y al cargar la página el valor se actualiza
+    ViewBag.cantEquiposInscritos = int.Parse(Session["cantEquiposInscritos"].ToString());
+
+    //Creo una lista de cargos y una lista de equipos para el modal de registrar cuerpo técnico
+    Context_BD _coBDToernooi = new Context_BD();
+    List<Cargos> L_Cargos = _coBDToernooi.Cargos.ToList();
+    List<InscripcionEquipos> L_Equipos = new List<InscripcionEquipos>();
+
+    //La lista de equipos la lleno con los equipos inscritos a un torneo cuyo id de torneo sea el mismo del model enviado
+    foreach (var equipo in _coBDToernooi.InscripcionEquipos.ToList())
+    {
+        if (equipo.Torneos_idTorneo==Model)
+        {
+            L_Equipos.Add(equipo);
+
+        }
+
+    }
+}
+@*Modelo que va a recibir el ID del torneo que acabo de crear, este ID viene desde el Session Usuario y en el ActionResult de Inscribir equipos saco su ID*@
+@model int
+
+@section scripts{
+    <script src="~/Areas/Gestion/Content/js/controlFormularios.js"></script>
+    <script src="~/Areas/Gestion/Content/js/validarRegisTorn.js"></script>
+    <!--Añado el scripts de las vistas parciales para cargar la vista parcial del los equipos creados. Cada vez que cree un equipo se actualiza la página-->
+    <script src="~/Areas/Gestion/Content/js/VistasParciales.js"></script>
+
+}
+
+<div class="container" style="text-align:left">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="~/imagenes/Logotipo Toernooi black.png" alt="" width="70" height="70">
+        <h2>Inscribir Equipos</h2>
+        <p class="lead">A continuación se solicitan los datos de los respectivos equipos inscritos al torneo.</p>
+    </div>
+    <!--Con las variables creadas muestro los equipos que tengo que inscribir y cuantos llevo inscritos.-->
+    <h3 style="text-align:left">Equipos inscritos: @ViewBag.cantEquiposInscritos/@ViewBag.cantEquipos</h3>
+
+    <!--Esto está comentado porque lo traté de hacer con JQuery y no me salió pero no lo voy a borrar por si estaba haciendo algo :v-->
+    <!--Voy a crear dos parrafos que no se pueden ver que almacenen los valores de los viewbag para trabajarlos en el JS-->
+    <!--<p id="p_equiposInscritos" style="display:none">@ViewBag.cantEquiposInscritos</p>
+    <p id="p_cantEquipos" style="display:none">@ViewBag.cantEquipos</p>-->
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            @*Valido si ya se alcanzó la cantidad de equipos, si es así, que me muestre el botón de añadir equipos disabled para no poder añadir más*@
+            @if (@ViewBag.cantEquiposInscritos == @ViewBag.cantEquipos)
+            {
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormEquipos" disabled data-bs-whatever="@@mdo" id="btnAddEquipo">Añadir Equipo</button>
+            }
+            else {
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormEquipos" data-bs-whatever="@@mdo" id="btnAddEquipo">Añadir Equipo</button>
+            }
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormCuerpoTec" data-bs-whatever="@@mdo">Inscribir cuerpo técnico</button>
+        </div>
+        <div class="col-md-8" id="divTablaEquipos">
+            <div class="col-12 mb-5" id="div_TablaEquipos">
+                <label>Aquí debería ir la tabla</label>
+            </div>
+            @*Valido si ya se alcanzó la cantidad de equipos, si es así, que me muestre el botón de añadir jugadores para no poder ir a la siguiente página, sino que se mantenga disable*@
+            @if (@ViewBag.cantEquiposInscritos == @ViewBag.cantEquipos)
+            {
+                <a class="btn btn-primary" href="@Url.Action("InscribirJugadores", "Torneos")" id="btnInsJugs">Inscribir jugadores</a>
+            }
+            else
+            {
+                <button class="btn btn-primary" href="@Url.Action("InscribirJugadores", "Torneos")" disabled id="btnInsJugs">Inscribir jugadores</button>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--###################################################### MODAL FORMULARIO REGISTRO EQUIPO ##################################################-->
+
+<div class="modal fade" id="modalFormEquipos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Equipo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" novalidate method="post" action="@Url.Action("insertEquipos","Torneos")">
+                    <div class="mb-3">
+                        <label for="nomEquipo" class="col-form-label">Nombre del equipo:</label>
+                        <input type="text" class="form-control" name="nomEquipo" required autocomplete="off" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="gradoOcarrera" class="col-form-label">Grado o carrera:</label>
+                        <input type="text" class="form-control" name="gradoOcarrera" required autocomplete="off" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nomResponsable" class="col-form-label">Responsable del equipo:</label>
+                        <input type="text" class="form-control" name="nomResponsable" required autocomplete="off" />
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary " type="submit">Añadir equipo</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!--<button type="button" class="btn btn-primary">Guardar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--###################################################### MODAL FORMULARIO REGISTRO CUERPO TECNICO ##################################################-->
+
+<div class="modal fade" id="modalFormCuerpoTec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar cuerpo técnico</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" novalidate method="post" action="@Url.Action("insertCuerpoTecnico","Torneos")">
+                    <div class="mb-1">
+                        <label for="nomTec" class="col-form-label">Nombre:</label>
+                        <input type="text" class="form-control" name="nomTecnico" required />
+                    </div>
+                    <div class="mb-1">
+                        <label for="docTec" class="col-form-label">Documento:</label>
+                        <input type="text" class="form-control" name="documentoTec" required />
+                    </div>
+                    <div class="mb-1">
+                        <label for="fechaNac" class="col-form-label">Fecha de nacimiento:</label>
+                        <input type="date" class="form-control" name="fechaNacimiento" required />
+                    </div>
+                    <div class="mb-1">
+                        <label for="fechaContrato" class="col-form-label">Fecha de inicio de contrato:</label>
+                        <input type="date" class="form-control" name="fechaInicio" required />
+                    </div>
+                    <div class="mb-1">
+                        <label for="fechaFinContrato" class="col-form-label">Fecha final de contrato:</label>
+                        <input type="date" class="form-control" name="fechaFin" />
+                    </div>
+                    <div class="mb-1">
+                        <label for="cargo" class="col-form-label">Cargo:</label>
+                        <select class="form-select" name="Cargos_idCargo" required>
+                            <option></option>
+                            <!--Muestro los cargos cargados en la base de datos que me saqué de la lista que cree arriba :v-->
+                            @foreach (var cargo in L_Cargos)
+                            {
+                                <option value="@cargo.idCargo">@cargo.nomCargo</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-1">
+                        <label for="equipo" class="col-form-label">Equipo:</label>
+                        <select class="form-select" name="Equipos_idEquipo" required>
+                            <option></option>
+                            <!--Si la cantidad de equipos es diferente de null que busque los equipos que había encontrado arriba y los liste. Con esto me va a mostrar los equipos que voy añadiendo -->
+                            @if (L_Equipos != null)
+                            {
+                                foreach (var equipo in L_Equipos)
+                                {
+                                    <option value="@equipo.Equipos.idEquipo">@equipo.Equipos.nomEquipo</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary " type="submit">Añadir técnico</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!--<button type="button" class="btn btn-primary">Guardar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+

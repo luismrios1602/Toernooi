@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "MisTorneos";
+
+    <!--Creo la conexión de la base de datos y listo todos los torneos porque voy a buscar los torneos que pertenezcan al usuario logueado-->
+    Context_BD _BDToernooi = new Context_BD();
+    List<Torneos> tablaTorneos = _BDToernooi.Torneos.ToList();
+}
+
+@*Modelo que recibe el id del Usuario que viene desde la Session Usuario creada al loguearse y que saca el id antes de mandar la vista en el metodo Index de Torneos*@
+@model int
+
+@section scripts{
+    @*Archivos JS para manipular el comportamiento de la página cuando el formulario esté diligenciado y/o hay error al cargar los datos*@
+    <script src="~/Areas/Gestion/Content/js/validarRegisTorn.js"></script>
+    <script src="~/Areas/Gestion/Content/js/Funciones.js"></script>
+}
+
+<h2>MisTorneos</h2>
+
+<!--Div que me sirve como formulario para mandarle los datos al actualizar-->
+<div class="container" id="div_Actualizar">
+    <div class="row mb-lg-5">
+        <div class="col-6">
+            <label for="IdTorneo">Escoger un Torneo para actualizar:</label>
+            <form method="get"  class="g-3 needs-validation" novalidate action="@Url.Action("Actualizar","Torneos")" >
+                <select class="form-control-sm" name="IdTorneo" required>
+                    <option></option>
+                    @foreach (var torneo in tablaTorneos.ToList())
+                    {
+                        //Si en la tabla de torneos hay un ID de Usuario con el que ID del usuario logueado, que lo muestre en la lista.
+                        if (torneo.Usuarios_idUsuario == Model)
+                        {
+                            <option value="@torneo.idTorneo">@torneo.nomTorneo</option>
+                        }
+                    }
+                </select>
+                <button type="submit" class="btn btn-info" onclick="validarRegistro()">Actualizar</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <!--Añado un botón que me permita ir a vista de registrar torneos-->
+            <br />
+            <a class="btn btn-primary mb-2" href="@Url.Action("RegistrarTorneo", "Torneos")">Registrar nuevo campeonato</a>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <div class="row">
+        <!--Tabla de los torneos-->
+        <div class="col-12">
+            <table class="table table-striped">
+                <tr>
+                    <th>IdTorneo</th>
+                    <th>Tipo ente Organizador</th>
+                    <th>Nombre Ente Organizador</th>
+                    <th>Documento Responsable</th>
+                    <th>Nombre del Responsable</th>
+                    <th>Nombre del torneo</th>
+                    <th>Tipo de torneo</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha final</th>
+                    <th>Cantidad de Equipos</th>
+                    <th>Ida y Vuelta</th>
+                    <th>Fecha de registro</th>
+                </tr>
+                @foreach (var torneo in tablaTorneos.ToList())
+                {
+                    //Si en la tabla de torneos hay un ID de Usuario con el que ID del usuario logueado, que lo muestre en la lista.
+                    if (torneo.Usuarios_idUsuario == Model)
+                    {
+                        <tr>
+                            <td>@torneo.idTorneo</td>
+                            <td>@torneo.tipoEnteOrganizador.tipoEnteOrg</td>
+                            <td>@torneo.nomEnteOrgan</td>
+                            <td>@torneo.docResponsable</td>
+                            <td>@torneo.nomResponsable</td>
+                            <td class="fw-bold">@torneo.nomTorneo</td>
+                            <td>@torneo.TiposTorneo.nomTipoTorneo</td>
+                            <td>@torneo.fechaInicio</td>
+                            <td>@torneo.fechaFin</td>
+                            <td>@torneo.cantEquipos</td>
+                            <td>@torneo.idaYvuelta</td>
+                            <td>@torneo.fechaRegistro</td>
+                        </tr>
+
+                    }
+                }
+
+            </table>
+        </div>
+
+    </div>
+</div>

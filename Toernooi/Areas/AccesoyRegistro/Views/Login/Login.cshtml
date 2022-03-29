@@ -1,0 +1,43 @@
+﻿
+@{
+    //Uso el Layout principal que está fuera del área.
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Login";
+}
+@section scripts{
+    <!--Archivo JS con la validación del login para cuando salga error o success la página haga algo :V-->
+    <script src="~/Areas/AccesoyRegistro/Content/js/validarLogin.js"></script>
+}
+
+<div class="container" style="margin-top:5%; margin-bottom:10%">
+    <div class="container-lg w-25">
+        <main class="form-signin">
+            <!--Con este formulario mando los datos al controlador login para validar con la ActionResulta Loguearse-->
+            <form method="get" action="@Url.Action("Loguearse","Login",new { Area = "AccesoyRegistro"})">
+                <img class="mb-4" src="~/imagenes/Logotipo Toernooi black.png" alt="" width="70" height="70">
+                <h1 class="h3 mb-3 fw-normal">Ingrese sus credenciales</h1>
+
+                <div class="form-floating">
+                    <input type="email" class="form-control mb-2" name="correo" id="floatingCorreo" placeholder="a" />
+                    <label for="floatingCorreo">Correo</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control mb-2" name="password" id="floatingPassword" placeholder="a">
+                    <label for="floatingPassword">Contraseña</label>
+                </div>
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Guardar mis datos
+                    </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary mb-2" type="submit" onclick="validarLogin()">Iniciar Sesión</button>
+                <!--Voy a colocar un botón para entrar sin loguearme, aunque ya con el login creo que no sirve LOLAZO-->
+                <a class="btn btn-primary" href="@Url.Action("Index","Torneos", new {Area = "Gestion" })">Iniciar sesión de mentiritas</a>
+            </form>
+        </main>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+@model List<Jugadores>
+
+@section scripts{
+    <script src="~/Areas/Gestion/Content/js/VistasParciales.js"></script>
+}
+<table class="table table-striped">
+    <tr>
+        <th>idJugador</th>
+        <th>Documento</th>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Fecha de Nacimiento</th>
+        <th>Dorsal</th>
+        <th>Equipo</th>
+        <th>Posición</th>
+    </tr>
+    @foreach (var jugador in Model)
+    {
+        if (jugador.Equipos_idEquipo.ToString().Equals(Session["idEquipo"].ToString()))
+        {
+            <tr>
+                <td>@jugador.idJugador</td>
+                <td>@jugador.documento</td>
+                <td>@jugador.nomJugador</td>
+                <td>@jugador.apeJugador</td>
+                <td>@jugador.fechaNacimiento</td>
+                <td>@jugador.dorsal</td>
+                <td>@jugador.Equipos.nomEquipo</td>
+                <td>@jugador.PosicionesJug.nomPosicion</td>
+            </tr>
+
+        }
+
+    }
+
+</table>
+

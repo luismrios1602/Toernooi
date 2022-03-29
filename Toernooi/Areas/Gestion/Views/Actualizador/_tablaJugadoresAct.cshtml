@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+    /*Explicacion de la empanada: 
+    1. El módelo me trae las inscripciones de los equipos.
+    2. En esas inscripciones hay una lista de equipos, pero dentro de esa lista de equipos hay una lista de jugadores.
+    3. La cadena termina ahí, es decir que con relaciones yo podría traerme una lista de varios jugadores
+    4. Como son muchas inscripciones, entonces voy a tener los jugadores agrupados por listas por cada inscripcion que haya.
+    5. Por tanto, creo una lista que me guarde esas listas de jugadores.
+    6. Pero para evitar que se vengan todos los jugadores, solo voy a guadar en mi lista, la lista de jugadores que pertenezcan a un equipo que esté inscrito en el torneo que estoy accediendo.
+    7. O sea, Varios jugadores, pertenecen a un equipo, ese equipo pertenece a una inscripcion y esa inscripcion está asociada a un torneo, si dicho torneo que estoy en el ciclo no es el id
+        que estoy manejando actualmente, esos jugadores no los guardo.
+    8. Cuando tenga esas varias listas en una sola, recorro ambas listas como si fuese una matriz.
+    9. Primero recorro la lista mayor, y por cada lista de jugadores que contenga esa lista, recorro esa minilista que ya contiene la información de los jugadores y es lo que voy a mostrar.
+    10. Al final, voy a tener recorrida cada lista pequeña mostrando la información de cada jugador que está ahí. Es algo como así: 
+    > Lista de Inscripciones
+      > Lista de lista de jugadores
+        > Lista de Jugadores
+            > Datos del jugador*/
+
+    //Este nombre es porque es como una bolsa que contiene las listas de jugadores :v
+    List<List<Jugadores>> bolsa_listaJugadores = new List<List<Jugadores>>();
+}
+
+<!--Recibo como módelo la lista de inscripciones para poder conectar el ID del torneo que está en la inscripcion, para enlazarla con la tabla de Equipos y así enlazarla con los jugadores -->
+@model List<InscripcionEquipos>
+
+@section scripts{
+    <script src="~/Areas/Gestion/Content/js/VistasParciales.js"></script>
+}
+
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-striped">
+                <tr>
+                    <th>idJugador</th>
+                    <th>Documento</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Dorsal</th>
+                    <th>Equipo</th>
+                    <th>Posición</th>
+                </tr>
+                <!--Aquí voy a recorrer las inscripciones-->
+                @foreach (var inscripcion in Model)
+                {
+                    <!--Si la inscripcion de un equipo iterada pertenece al torneo en el que estoy ahora-->
+                    <!--if (inscripcion.Torneos_idTorneo.ToString() == Session["idTorneo"].ToString())
+            {-->
+                    <!--Tomo todos los jugadores que pertenecen a ese equipo que está asignado a esa inscripcion-->
+
+                    <!--}-->
+                    //No voy a necesitar revisar porque con el where, el modelo solo me trae los torneos que pertenecen a este torneo
+
+                    //Añado la lista de jugadores de este equipo a la bolsa de listas
+                    bolsa_listaJugadores.Add(inscripcion.Equipos.Jugadores.ToList());
+
+                }
+                <!--Cuando termine de revisar todas las iteraciones voy a tener una bolsa con las listas de jugadores-->
+                <!--Entro a revisar esta bolsa-->
+                @foreach (var jugador in bolsa_listaJugadores)
+                {
+                    <!--Cuando saque la primera lista, la reviso-->
+                    foreach (Jugadores item in jugador)
+                    {
+                        <!--Voy mostrando los datos de cada jugador que está en esta lista-->
+                        <tr>
+                            <td>@item.idJugador</td>
+                            <td>@item.documento</td>
+                            <td>@item.nomJugador</td>
+                            <td>@item.apeJugador</td>
+                            <td>@item.fechaNacimiento</td>
+                            <td>@item.dorsal</td>
+                            <td>@item.Equipos.nomEquipo</td>
+                            <td>@item.PosicionesJug.nomPosicion</td>
+                        </tr>
+                    }
+                }
+
+            </table>
+        </div>
+    </div>
+
+

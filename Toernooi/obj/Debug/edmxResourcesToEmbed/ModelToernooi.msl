@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BDToernooiModelStoreContainer" CdmEntityContainer="BDToernooiEntities">
+    <EntitySetMapping Name="AsignacionRoles">
+      <EntityTypeMapping TypeName="BDToernooiModel.AsignacionRoles">
+        <MappingFragment StoreEntitySet="AsignacionRoles">
+          <ScalarProperty Name="idAsignacion" ColumnName="idAsignacion" />
+          <ScalarProperty Name="fechaAsignacion" ColumnName="fechaAsignacion" />
+          <ScalarProperty Name="Roles_idRol" ColumnName="Roles_idRol" />
+          <ScalarProperty Name="Usuarios_idUsuario" ColumnName="Usuarios_idUsuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cargos">
+      <EntityTypeMapping TypeName="BDToernooiModel.Cargos">
+        <MappingFragment StoreEntitySet="Cargos">
+          <ScalarProperty Name="idCargo" ColumnName="idCargo" />
+          <ScalarProperty Name="nomCargo" ColumnName="nomCargo" />
+          <ScalarProperty Name="cuerpoTecnico" ColumnName="cuerpoTecnico" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetallePartido">
+      <EntityTypeMapping TypeName="BDToernooiModel.DetallePartido">
+        <MappingFragment StoreEntitySet="DetallePartido">
+          <ScalarProperty Name="idDetallePartido" ColumnName="idDetallePartido" />
+          <ScalarProperty Name="minuto" ColumnName="minuto" />
+          <ScalarProperty Name="Sucesos_idSuceso" ColumnName="Sucesos_idSuceso" />
+          <ScalarProperty Name="Jugadores_idJugador" ColumnName="Jugadores_idJugador" />
+          <ScalarProperty Name="Partido_idPartido" ColumnName="Partido_idPartido" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Equipos">
+      <EntityTypeMapping TypeName="BDToernooiModel.Equipos">
+        <MappingFragment StoreEntitySet="Equipos">
+          <ScalarProperty Name="idEquipo" ColumnName="idEquipo" />
+          <ScalarProperty Name="nomEquipo" ColumnName="nomEquipo" />
+          <ScalarProperty Name="gradoOcarrera" ColumnName="gradoOcarrera" />
+          <ScalarProperty Name="nomResponsable" ColumnName="nomResponsable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InscripcionEquipos">
+      <EntityTypeMapping TypeName="BDToernooiModel.InscripcionEquipos">
+        <MappingFragment StoreEntitySet="InscripcionEquipos">
+          <ScalarProperty Name="idInscripcionEquipo" ColumnName="idInscripcionEquipo" />
+          <ScalarProperty Name="fechaInscripcion" ColumnName="fechaInscripcion" />
+          <ScalarProperty Name="Equipos_idEquipo" ColumnName="Equipos_idEquipo" />
+          <ScalarProperty Name="Torneos_idTorneo" ColumnName="Torneos_idTorneo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Jugadores">
+      <EntityTypeMapping TypeName="BDToernooiModel.Jugadores">
+        <MappingFragment StoreEntitySet="Jugadores">
+          <ScalarProperty Name="idJugador" ColumnName="idJugador" />
+          <ScalarProperty Name="documento" ColumnName="documento" />
+          <ScalarProperty Name="nomJugador" ColumnName="nomJugador" />
+          <ScalarProperty Name="apeJugador" ColumnName="apeJugador" />
+          <ScalarProperty Name="fechaNacimiento" ColumnName="fechaNacimiento" />
+          <ScalarProperty Name="dorsal" ColumnName="dorsal" />
+          <ScalarProperty Name="Equipos_idEquipo" ColumnName="Equipos_idEquipo" />
+          <ScalarProperty Name="PosicionesJug_idPosicionJug" ColumnName="PosicionesJug_idPosicionJug" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Partidos">
+      <EntityTypeMapping TypeName="BDToernooiModel.Partidos">
+        <MappingFragment StoreEntitySet="Partidos">
+          <ScalarProperty Name="idPartido" ColumnName="idPartido" />
+          <ScalarProperty Name="EquipoLocal" ColumnName="EquipoLocal" />
+          <ScalarProperty Name="EquipoVisitante" ColumnName="EquipoVisitante" />
+          <ScalarProperty Name="Cancha" ColumnName="Cancha" />
+          <ScalarProperty Name="fechaPartido" ColumnName="fechaPartido" />
+          <ScalarProperty Name="golesLocal" ColumnName="golesLocal" />
+          <ScalarProperty Name="golesVisitante" ColumnName="golesVisitante" />
+          <ScalarProperty Name="nomArbitro" ColumnName="nomArbitro" />
+          <ScalarProperty Name="evento" ColumnName="evento" />
+          <ScalarProperty Name="Torneos_idTorneo" ColumnName="Torneos_idTorneo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PosicionesJug">
+      <EntityTypeMapping TypeName="BDToernooiModel.PosicionesJug">
+        <MappingFragment StoreEntitySet="PosicionesJug">
+          <ScalarProperty Name="idPosicionJug" ColumnName="idPosicionJug" />
+          <ScalarProperty Name="nomPosicion" ColumnName="nomPosicion" />
+          <ScalarProperty Name="siglas" ColumnName="siglas" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PuntosPorEquipo">
+      <EntityTypeMapping TypeName="BDToernooiModel.PuntosPorEquipo">
+        <MappingFragment StoreEntitySet="PuntosPorEquipo">
+          <ScalarProperty Name="idPuntosPorEquipo" ColumnName="idPuntosPorEquipo" />
+          <ScalarProperty Name="Torneos_idTorneo" ColumnName="Torneos_idTorneo" />
+          <ScalarProperty Name="Equipos_idEquipo" ColumnName="Equipos_idEquipo" />
+          <ScalarProperty Name="PJ" ColumnName="PJ" />
+          <ScalarProperty Name="PG" ColumnName="PG" />
+          <ScalarProperty Name="PP" ColumnName="PP" />
+          <ScalarProperty Name="PE" ColumnName="PE" />
+          <ScalarProperty Name="GF" ColumnName="GF" />
+          <ScalarProperty Name="GC" ColumnName="GC" />
+          <ScalarProperty Name="DG" ColumnName="DG" />
+          <ScalarProperty Name="PTS" ColumnName="PTS" />
+          <ScalarProperty Name="grupo" ColumnName="grupo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegistroTecnicos">
+      <EntityTypeMapping TypeName="BDToernooiModel.RegistroTecnicos">
+        <MappingFragment StoreEntitySet="RegistroTecnicos">
+          <ScalarProperty Name="idRegistroTecnico" ColumnName="idRegistroTecnico" />
+          <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+          <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+          <ScalarProperty Name="Cargos_idCargo" ColumnName="Cargos_idCargo" />
+          <ScalarProperty Name="Equipos_idEquipo" ColumnName="Equipos_idEquipo" />
+          <ScalarProperty Name="Tecnicos_idTecnico" ColumnName="Tecnicos_idTecnico" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegistroTorneos">
+      <EntityTypeMapping TypeName="BDToernooiModel.RegistroTorneos">
+        <MappingFragment StoreEntitySet="RegistroTorneos">
+          <ScalarProperty Name="idRegistroTorneo" ColumnName="idRegistroTorneo" />
+          <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+          <ScalarProperty Name="Usuarios_idUsuarios" ColumnName="Usuarios_idUsuarios" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="BDToernooiModel.Roles">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="idRol" ColumnName="idRol" />
+          <ScalarProperty Name="nomRol" ColumnName="nomRol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sucesos">
+      <EntityTypeMapping TypeName="BDToernooiModel.Sucesos">
+        <MappingFragment StoreEntitySet="Sucesos">
+          <ScalarProperty Name="idSuceso" ColumnName="idSuceso" />
+          <ScalarProperty Name="nomSuceso" ColumnName="nomSuceso" />
+          <ScalarProperty Name="afectaJug" ColumnName="afectaJug" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="BDToernooiModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tecnicos">
+      <EntityTypeMapping TypeName="BDToernooiModel.Tecnicos">
+        <MappingFragment StoreEntitySet="Tecnicos">
+          <ScalarProperty Name="idTecnico" ColumnName="idTecnico" />
+          <ScalarProperty Name="nomTecnico" ColumnName="nomTecnico" />
+          <ScalarProperty Name="documentoTec" ColumnName="documentoTec" />
+          <ScalarProperty Name="fechaNacimiento" ColumnName="fechaNacimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tipoEnteOrganizador">
+      <EntityTypeMapping TypeName="BDToernooiModel.tipoEnteOrganizador">
+        <MappingFragment StoreEntitySet="tipoEnteOrganizador">
+          <ScalarProperty Name="idTipoEnte" ColumnName="idTipoEnte" />
+          <ScalarProperty Name="tipoEnteOrg" ColumnName="tipoEnteOrg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TiposTorneo">
+      <EntityTypeMapping TypeName="BDToernooiModel.TiposTorneo">
+        <MappingFragment StoreEntitySet="TiposTorneo">
+          <ScalarProperty Name="idTipoTorneo" ColumnName="idTipoTorneo" />
+          <ScalarProperty Name="nomTipoTorneo" ColumnName="nomTipoTorneo" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Torneos">
+      <EntityTypeMapping TypeName="BDToernooiModel.Torneos">
+        <MappingFragment StoreEntitySet="Torneos">
+          <ScalarProperty Name="idTorneo" ColumnName="idTorneo" />
+          <ScalarProperty Name="cantEquipos" ColumnName="cantEquipos" />
+          <ScalarProperty Name="nomResponsable" ColumnName="nomResponsable" />
+          <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+          <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+          <ScalarProperty Name="nomTorneo" ColumnName="nomTorneo" />
+          <ScalarProperty Name="Usuarios_idUsuario" ColumnName="Usuarios_idUsuario" />
+          <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+          <ScalarProperty Name="docResponsable" ColumnName="docResponsable" />
+          <ScalarProperty Name="tipoEnteOrganizador_idTipoEnte" ColumnName="tipoEnteOrganizador_idTipoEnte" />
+          <ScalarProperty Name="tiposTorneos_idTipoTorneo" ColumnName="tiposTorneos_idTipoTorneo" />
+          <ScalarProperty Name="idaYvuelta" ColumnName="idaYvuelta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="BDToernooiModel.Usuarios">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+          <ScalarProperty Name="nomUsuario" ColumnName="nomUsuario" />
+          <ScalarProperty Name="user" ColumnName="user" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="correo" ColumnName="correo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="BDToernooiModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="BDToernooiModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="BDToernooiModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="BDToernooiModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BDToernooiModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="BDToernooiModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BDToernooiModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BDToernooiModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BDToernooiModel.Store.sp_upgraddiagrams" />
+  </EntityContainerMapping>
+</Mapping>

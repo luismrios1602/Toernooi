@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Información del Torneo";
+
+    //Creo la conexión a la base de datos para listas los tipos de ente y los tipos de torneo para llenar los select
+    Context_BD _coBDToernooi = new Context_BD();
+    List<tipoEnteOrganizador> L_tipoEnte = _coBDToernooi.tipoEnteOrganizador.ToList();
+    List<TiposTorneo> L_tiposTorneos = _coBDToernooi.TiposTorneo.ToList();
+
+    //Me traigo la lista de torneos para buscar el mío (que viene en el modelo)
+    List<Torneos> torneos = _coBDToernooi.Torneos.ToList();
+    Torneos myTorneo = new Torneos();
+
+    Session["IdTorneo"] = Model;
+
+    //Ciclo para sacar mi torneo
+    foreach (var torneo in torneos)
+    {
+        if (Model == torneo.idTorneo)
+        {
+            myTorneo = torneo;
+        }
+    }
+
+    //busco la lista de los equipos y los jugadores para hacer la búsqueda para editarlos.
+    List<Equipos> List_equipos = _coBDToernooi.Equipos.ToList();
+    List<Jugadores> List_jugadores = _coBDToernooi.Jugadores.ToList();
+}
+
+@*Modelo que recibe el ID del torneo enviado desde la Session IDTorneo que viene desde MisTorneos *@
+@model  int
+
+@section scripts{
+    @*Archivos JS para manipular el comportamiento de la página cuando el formulario esté diligenciado y/o hay error al cargar los datos*@
+    <script src="~/Areas/Gestion/Content/js/Funciones.js"></script>
+    <script src="~/Areas/Gestion/Content/js/validarRegisTorn.js"></script>
+    <script src="~/Areas/Gestion/Content/js/VistasParcialesAct.js"></script>
+
+}
+
+<div class="container" style="text-align:left">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="~/imagenes/Logotipo Toernooi black.png" alt="" width="70" height="70">
+        <h2>@myTorneo.nomTorneo</h2>
+        <p class="lead">Estos son los datos del torneo seleccionado, puede editar los datos que sean requeridos.</p>
+    </div>
+    <div class="row mb-5">
+        <div class="col-12">
+            <!--FORMULARIO DE ACTUALIZACION-->
+            <form method="post" class="row g-3 needs-validation" novalidate action="@Url.Action("updateTorneo", "Actualizador")">
+                <!--Datos del organizador-->
+                <h3 style="text-align:left">Datos del organizador:</h3>
+                <div class="col-md-4">
+                    <input type="text" name="idTorneo" style="display:none" value="@myTorneo.idTorneo" />
+                    <label for="tipoEnteOrganizador_idTipoEnte" class="form-label">Tipo de ente Organizador</label>
+                    <select class="form-select" name="tipoEnteOrganizador_idTipoEnte" required>
+                        <!--De primero muestro el tipo ente que tiene el torneo que estoy mostrando. -->
+                        <option value="@myTorneo.tipoEnteOrganizador_idTipoEnte">@myTorneo.tipoEnteOrganizador.tipoEnteOrg</option>
+                        <!--Lleno los datos del select con la lista de tipos de entes que haya en la base de datos-->
+                        @foreach (var item_tipoEnte in L_tipoEnte)
+                        {
+                            <option value="@item_tipoEnte.idTipoEnte">@item_tipoEnte.tipoEnteOrg</option>
+                        }
+                    </select>
+                    <div class="valid-feedback">
+                        Correcto!
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="nomEnteOrgan" class="form-label">Nombre del ente Organizador</label>
+                    <input type="text" class="form-control" name="nomEnteOrgan" id="nomEnteOrgan" value="@myTorneo.nomEnteOrgan" required autocomplete="off" />
+                    <div class="valid-feedback">
+                        Correcto!
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="docResponsable" class="form-label">Doc. del representante</label>
+                    <input type="text" class="form-control" name="docResponsable" id="docResponsable" value="@myTorneo.docResponsable" required autocomplete="off" />
+                    <div class="valid-feedback">
+                        Correcto!
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="nomResponsable" class="form-label">Nombre del representante</label>
+                    <input type="text" class="form-control" name="nomResponsable" id="nomResponsable" value="@myTorneo.nomResponsable" required autocomplete="off" />
+                    <div class="valid-feedback">
+                        Correcto!
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="nomTorneo" class="form-label">Nombre oficial del torneo</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="nomTorneo" id="nomTorneo" value="@myTorneo.nomTorneo" required>
+                    <div class="valid-feedback">
+                        Correcto!
+                    </div>
+                </div>
+                <!--Agregar un espacio en blanco de 3 a los lados para que no me coja todo el ancho de la pantalla-->
+                <div class="col-md-3">
+                </div>
+
+                <!--Dato del torneo-->
+                <h3>Dato del torneo:</h3>
+                <div class="col-md-3">
+                    <label for="tipoTorneo" class="form-label">Tipo de torneo:</label>
+                    <select class="form-select" id="tipoTorneo" name="tiposTorneos_idTipoTorneo" required>
+                        <option value="@myTorneo.tiposTorneos_idTipoTorneo">@myTorneo.TiposTorneo.nomTipoTorneo</option>
+                        <!--Lleno el select de tipo de torneo con los datos de los tipos de torneo de la base de datos-->
+                        @foreach (var item_tipoTorneo in L_tiposTorneos)
+                        {
+                            <option value="@item_tipoTorneo.idTipoTorneo">@item_tipoTorneo.nomTipoTorneo</option>
+                        }
+                    </select>
+                    <div class="valid-feedback">
+                        Correcto!
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Fechas estimadas: </label>
+                    <div>
+                        <label>Inicio:</label>
+                        <input type="date" class="form-control" value="@myTorneo.fechaInicio.ToString()" name="fechaInicio" />
+                        <label>Finalización:</label>
+                        <input type="date" class="form-control" value="@myTorneo.fechaFin.ToString()" name="fechaFin" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="cantEquipos">Cantidad de Equipos:</label>
+                    <input type="number" class="form-control w-50" name="cantEquipos" id="cantEquipos" value="@myTorneo.cantEquipos" min="2" required />
+                </div>
+                <div class="col-md-3">
+                    <label>Partidos de ida y vuelta: </label>
+                    <input class="form-check w-25" type="checkbox" id="idaYvuelta" name="idaYvuelta" value="@myTorneo.idaYvuelta" onclick="chequear()" />
+                    <div class="valid-feedback">
+                        Correcto!
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary" onclick="validarRegistro()" value="">Actualizar torneo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <h4 class="form-label">Equipos: </h4>
+            <div class="" id="div_TablaEquipos">
+                <!--Aquí se carga la vista parcial de equipos-->
+            </div>
+        </div>
+        <div class="col-5">
+            <h4 class="form-label">Jugadores:</h4>
+            <div class="" id="divTablaJugadores">
+                <!--Aquí se carga la vista parcial de los jugadores-->
+            </div>
+        </div>
+        <div class="col-2">
+
+        </div>
+    </div>
+</div>
+
+

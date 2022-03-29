@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "Registrar Torneo";
+
+    //Creo la conexión a la base de datos para listas los tipos de ente y los tipos de torneo para llenar los select
+    Context_BD _coBDToernooi = new Context_BD();
+    List<tipoEnteOrganizador> L_tipoEnte = _coBDToernooi.tipoEnteOrganizador.ToList();
+    List<TiposTorneo> L_tiposTorneos = _coBDToernooi.TiposTorneo.ToList();
+}
+
+@*Modelo que recibe el ID del usuario enviado desde la Session Usuario que viene desde el login y manipulado desde el método Registrar Torneo para sacar su id *@
+@model  int
+
+@section scripts{
+    @*Archivos JS para manipular el comportamiento de la página cuando el formulario esté diligenciado y/o hay error al cargar los datos*@
+    <script src="~/Areas/Gestion/Content/js/validarRegisTorn.js"></script>
+    <script src="~/Areas/Gestion/Content/js/Funciones.js"></script>
+}
+
+<div class="container" style="text-align:left">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="~/imagenes/Logotipo Toernooi black.png" alt="" width="70" height="70">
+        <h2>Registrar nuevo torneo</h2>
+        <p class="lead">Por favor ingresar los datos solicitados en el siguiente formulario. Estos datos están seguros porque hay una ley que lo ampara: La ley divina, amén.</p>
+    </div>
+
+    <!--FORMULARIO DE INGRESO-->
+    <form method="post" class="row g-3 needs-validation" novalidate action="@Url.Action("insertTorneo","Torneos")">
+        <!--Datos del organizador-->
+        <h3 style="text-align:left">Datos del organizador:</h3>
+        <div class="col-md-4">
+            <label for="tipoEnteOrganizador_idTipoEnte" class="form-label">Tipo de ente Organizador</label>
+            <select class="form-select" name="tipoEnteOrganizador_idTipoEnte" required>
+                <option></option>
+                <!--Lleno los datos del select con la lista de tipos de entes que haya en la base de datos-->
+                @foreach (var item_tipoEnte in L_tipoEnte)
+                {
+                    <option value="@item_tipoEnte.idTipoEnte">@item_tipoEnte.tipoEnteOrg</option>
+                }
+            </select>
+            <div class="valid-feedback">
+                Correcto!
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="nomEnteOrgan" class="form-label">Nombre del ente Organizador</label>
+            <input type="text" class="form-control" name="nomEnteOrgan" id="nomEnteOrgan" value="" required autocomplete="off" />
+            <div class="valid-feedback">
+                Correcto!
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label for="docResponsable" class="form-label">Doc. del representante</label>
+            <input type="text" class="form-control" name="docResponsable" id="docResponsable" value="" required autocomplete="off" />
+            <div class="valid-feedback">
+                Correcto!
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="nomResponsable" class="form-label">Nombre del representante</label>
+            <input type="text" class="form-control" name="nomResponsable" id="nomResponsable" value="" required autocomplete="off" />
+            <div class="valid-feedback">
+                Correcto!
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="nomTorneo" class="form-label">Nombre oficial del torneo</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="nomTorneo" id="nomTorneo" required>
+            <div class="valid-feedback">
+                Correcto!
+            </div>
+        </div>
+        <!--Agregar un espacio en blanco de 3 a los lados para que no me coja todo el ancho de la pantalla-->
+        <div class="col-md-3">
+        </div>
+
+        <!--Dato del torneo-->
+        <h3>Dato del torneo:</h3>
+        <div class="col-md-3">
+            <label for="tipoTorneo" class="form-label">Tipo de torneo:</label>
+            <select class="form-select" id="tipoTorneo" name="tiposTorneos_idTipoTorneo" required>
+                <option></option>
+                <!--Lleno el select de tipo de torneo con los datos de los tipos de torneo de la base de datos-->
+                @foreach (var item_tipoTorneo in L_tiposTorneos)
+                {
+                    <option value="@item_tipoTorneo.idTipoTorneo">@item_tipoTorneo.nomTipoTorneo</option>
+                }
+            </select>
+            <div class="valid-feedback">
+                Correcto!
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Fechas estimadas: </label>
+            <div>
+                <label>Inicio:</label>
+                <input type="date" class="form-control" name="fechaInicio" />
+                <label>Finalización:</label>
+                <input type="date" class="form-control" name="fechaFin" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="cantEquipos">Cantidad de Equipos:</label>
+            <input type="number" class="form-control w-50" name="cantEquipos" id="cantEquipos" value="" min="2" required />
+        </div>
+        <div class="col-md-3">
+            <label>Partidos de ida y vuelta: </label>
+            <input class="form-check w-25" type="checkbox" id="idaYvuelta" name="idaYvuelta" value="false" onclick="chequear()" />
+        </div>
+        <!--Los datos que faltan los voy a colocar en un div invisible para que se vayan en el modelo del formulario-->
+        <div class="col-md-3" style="display:none">
+            <input type="text" name="Usuarios_idUsuario" value="@Model"/>
+        </div>
+        <div class="col-md-3">
+            <input type="submit" class="btn btn-primary" onclick="validarRegistro()" value="Registrar torneo" />
+            @*<a class="btn btn-primary" href="@Url.Action("InscribirEquipos","Torneos")" onclick="validarRegistro()">Siguiente</a>*@
+        </div>
+
+        <!--Contenedor de las opciones del torneo que va a verse cuando le dé clic al botón-->
+        <!--Voy a comentar esto porque creo que no lo voy a usar
+        <div class="row">
+            <h3>Formato del torneo: Liga</h3>
+            <p>Escoja las opciones para personalizar el torneo:</p>
+            <div class="col-md-12">
+                <div class="col-4">
+                    <h6>Modo Liga:</h6>
+                    <input type="radio" name="itemsDesempate" value="1" id="rbOp1" onclick="mostrarItemsDesempate1()" /> Opcion 1
+                    <input type="radio" name="itemsDesempate" value="2" id="rbOp2" onclick="mostrarItemsDesempate2()" /> Opcion 2
+                    <input type="radio" name="itemsDesempate" value="2" id="rbOp3" onclick="mostrarItemsDesempate3()" /> Opcion 3
+
+            <!--Lista del orden de items de desempate-->
+        <!--
+                    <div style="visibility:hidden" class="mt-2" id="itemsOp">
+                        <ol>
+                            <li id="li_items1"></li>
+                            <li id="li_items2"></li>
+                            <li id="li_items3"></li>
+                            <li id="li_items4"></li>
+                            <li id="li_items5"></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6>Modo Grupos:</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>Modo eliminatoria:</h6>
+                </div>
+            </div>
+
+        </div>-->
+    </form>
+</div>
+

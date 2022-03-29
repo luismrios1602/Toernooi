@@ -1,0 +1,33 @@
+﻿@{
+    Layout = null;
+}
+@model List<InscripcionEquipos>
+
+@section scripts{
+    <script src="~/Areas/Gestion/Content/js/VistasParciales.js"></script>
+}
+<table class="table table-striped">
+    <tr>
+        <th>IdEquipo</th>
+        <th>Nombre del equipo</th>
+        <th>Grado o Carrera</th>
+        <th>Responsable</th>
+        <th>Torneo</th>
+    </tr>
+    @foreach (var equipo in Model)
+    {
+        if (equipo.Torneos_idTorneo.ToString().Equals(Session["idTorneo"].ToString()))
+        { 
+            <tr>
+                <td>@equipo.Equipos_idEquipo</td>
+                <td>@equipo.Equipos.nomEquipo</td>
+                <td>@equipo.Equipos.gradoOcarrera</td>
+                <td>@equipo.Equipos.nomResponsable</td>
+                <td>@equipo.Torneos_idTorneo</td>
+            </tr>
+
+        }
+        
+    }
+
+</table>
